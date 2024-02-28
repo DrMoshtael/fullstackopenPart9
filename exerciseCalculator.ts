@@ -24,5 +24,31 @@ const calculateExercises = (actual: number[], target: number): Result => {
         average: average
     }
 }
-const days = [3, 0, 2, 4.5, 0, 3, 1]
-console.log(calculateExercises(days, 2))
+
+interface Args {
+    target: number;
+    actuals: number[]
+}
+
+const parseArguments = (args: string[]) => {
+    if (args.length < 4) throw new Error('Not enough arguments')
+    
+    if (args.slice(2).every(cur => !isNaN(Number(cur)))) {
+        return {
+            target: Number(args[2]),
+            actuals: args.slice(3).map(i => Number(i))
+        }
+    } else {
+        throw new Error('Provided values were not numbers')
+    }
+}
+
+try {
+    const {target ,actuals } = parseArguments(process.argv)
+    console.log(calculateExercises(actuals,target))
+} catch (error: unknown) {
+    if (error instanceof Error) {
+        console.log(error.message)
+    }
+}
+
