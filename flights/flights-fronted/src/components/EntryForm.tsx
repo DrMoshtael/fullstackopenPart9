@@ -33,15 +33,22 @@ const EntryForm = ({setNotification}:{setNotification: React.Dispatch<React.SetS
             <form onSubmit={handleEntry}>
                 <div>
                     <label htmlFor='date'>date</label>
-                    <input value={date} id='date' onChange={({ target }) => setDate(target.value)} />
+                    <input type='date' value={date} id='date' onChange={({ target }) => setDate(target.value)} />
                 </div>
                 <div>
-                    <label htmlFor='visibility'>visibility</label>
-                    <input value={visibility} id='visibility' onChange={({ target }) => setVisibility(target.value)} />
+                    visibility
+                    great<input type='radio' name='visibility' onChange={() => setVisibility('great')}/>
+                    good<input type='radio' name='visibility' onChange={() => setVisibility('good')}/>
+                    ok<input type='radio' name='visibility' onChange={() => setVisibility('ok')}/>
+                    poor<input type='radio' name='visibility' onChange={() => setVisibility('poor')}/>
                 </div>
                 <div>
-                    <label htmlFor='weather'>weather</label>
-                    <input value={weather} id='weather' onChange={({ target }) => setWeather(target.value)} />
+                   weather
+                    sunny<input type='radio' name='weather' onChange={() => setWeather('sunny')} />
+                    rainy<input type='radio' name='weather' onChange={() => setWeather('rainy')} />
+                    cloudy<input type='radio' name='weather' onChange={() => setWeather('cloudy')} />
+                    stormy<input type='radio' name='weather' onChange={() => setWeather('stormy')} />
+                    windy<input type='radio' name='weather' onChange={() => setWeather('windy')} />
                 </div>
                 <div>
                     <label htmlFor='comment'>comment</label>
