@@ -3,9 +3,11 @@ import diaryService from "./services/diaryService"
 import Diary from "./components/Diary"
 import { NonSensitiveDiaryEntry } from "./types"
 import EntryForm from './components/EntryForm'
+import Notify from "./components/Notify"
 
 const App = () => {
   const [entries, setEntries] = useState<NonSensitiveDiaryEntry[]>([])
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     const fetchEntries = async () => {
@@ -17,7 +19,8 @@ const App = () => {
 
   return (
     <div>
-      <EntryForm />
+      <Notify notification={notification} />
+      <EntryForm setNotification={setNotification}/>
       <Diary entries={entries} />
     </div>
   )

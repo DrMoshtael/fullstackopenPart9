@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import diaryService from '../services/diaryService';
+import axios from 'axios';
 
-const EntryForm = () => {
+const EntryForm = ({setNotification}:{setNotification: React.Dispatch<React.SetStateAction<string>>}) => {
     const [date, setDate] = useState('')
     const [visibility, setVisibility] = useState('')
     const [weather, setWeather] = useState('')
@@ -9,7 +10,16 @@ const EntryForm = () => {
 
     const handleEntry = async (event: React.SyntheticEvent) => {
         event.preventDefault()
-        await diaryService.postEntry({date, weather, visibility, comment})
+        try {
+            await diaryService.postEntry({date, weather, visibility, comment})
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log(error)
+                if (error.response) setNotification(error.response.data)
+                else setNotification(error.message)
+                setTimeout(() => setNotification(''), 3000)
+            }
+        }
         setDate('')
         setVisibility('')
         setWeather('')
