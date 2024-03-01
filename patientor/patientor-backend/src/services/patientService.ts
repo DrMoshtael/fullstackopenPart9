@@ -3,12 +3,13 @@ import { NewPatient, PatientPublic, Patient } from "../types";
 import { v1 as uuid } from 'uuid';
 
 const getPatientsPublic = (): PatientPublic[] => {
-    return patientData.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+    return patientData.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
         id,
         name,
         dateOfBirth,
         gender,
-        occupation
+        occupation,
+        entries
     }));
 };
 
@@ -21,6 +22,7 @@ const addPatient = (entry: NewPatient): Patient => {
     const id = uuid();
     const newPatient = {
         id,
+        entries: [], //temp
         ...entry
     };
     patientData.push(newPatient);
