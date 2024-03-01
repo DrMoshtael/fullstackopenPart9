@@ -1,7 +1,7 @@
 const Total = ({total}:{total: number}) => (
-    <div>
+    <h3>
         Total number of exercises: {total}
-    </div>
+    </h3>
 )
 
 export default Total
