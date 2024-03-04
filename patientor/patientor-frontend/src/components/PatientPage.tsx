@@ -1,9 +1,9 @@
 import { Patient, Diagnosis, Entry } from "../types";
 import patientService from "../services/patients";
 import { useEffect, useState } from "react";
-import HealthCheck from "./Healthcheck";
 import OccupationalHealthcare from "./OccupationalHealthcare";
 import Hospital from "./Hospital";
+import HealthCheck from "./HealthCheck";
 
 interface Props {
     id: string | null | undefined;
