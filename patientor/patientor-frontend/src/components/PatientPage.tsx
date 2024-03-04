@@ -1,6 +1,9 @@
-import { Patient, Diagnosis } from "../types";
+import { Patient, Diagnosis, Entry } from "../types";
 import patientService from "../services/patients";
 import { useEffect, useState } from "react";
+import HealthCheck from "./Healthcheck";
+import OccupationalHealthcare from "./OccupationalHealthcare";
+import Hospital from "./Hospital";
 
 interface Props {
     id: string | null | undefined;
@@ -19,14 +22,45 @@ const PatientPage = (props: Props) => {
         fetchPatient();
     }, [props.id]);
 
-    const assignDiagnosis = (dCode: string) => {
+    const assignDiagnosis = (dCode: string): string | undefined => {
         const result: Diagnosis | undefined = props.diagnoses.find(diag => diag.code === dCode);
         if (result) return result.name;
+    };
+
+    const assertNever = (value: never): never => {
+        throw new Error(
+            `Unhandled discriminated union member: ${JSON.stringify(value)}`
+        );
+    };
+
+    const EntryDetails = ( entry: Entry ) => {
+        switch (entry.type) {
+            case "Hospital":
+                return <Hospital entry={entry} assignDiagnosis={assignDiagnosis} />;
+            case "OccupationalHealthcare":
+                return <OccupationalHealthcare entry={entry} assignDiagnosis={assignDiagnosis} />;
+            case "HealthCheck":
+                return <HealthCheck entry={entry} assignDiagnosis={assignDiagnosis} />;
+            default:
+                return assertNever(entry);
+        }
+    };
+
+    const entryStyle = { 
+        borderStyle:'solid', 
+        borderRadius: 5, 
+        borderWidth: 2, 
+        marginBottom: 10,
+        paddingLeft: 10
     };
 
     if (patient)
         return (
             <div>
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                />
                 <h2>{patient.name}</h2>
                 <div>ssn: {patient.ssn}</div>
                 <div>occupation: {patient.occupation}</div>
@@ -34,13 +68,8 @@ const PatientPage = (props: Props) => {
                 <div>DOB: {patient.dateOfBirth}</div>
                 <h3>Entries</h3>
                 {patient.entries.map(e => (
-                    <div key={e.id}>
-                        <p>{e.date} <i>{e.description}</i></p>
-                        <ul>
-                            {e.diagnosisCodes && e.diagnosisCodes.map(d => (
-                                <li key={d}>{d} {assignDiagnosis(d)}</li>
-                            ))}
-                        </ul>
+                    <div key={e.id} style={entryStyle}>
+                        {EntryDetails(e)}
                     </div>
                 ))}
             </div>
